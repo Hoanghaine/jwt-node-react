@@ -1,10 +1,4 @@
-import mysql from "mysql2"
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'jwt',
-});
+import userService from "../services/userService"
 
 const handleHelloworld = (req,res)=>{
   return res.render("home.ejs")
@@ -18,16 +12,9 @@ const handleCreateNewUser = (req,res)=>{
   let email = req.body.email;
   let password = req.body.password;
   let username = req.body.username;
-  connection.query(
-    `INSERT INTO users (email,password,username) VALUES ("${email}","${password}","${username}")`,
-    function (err, results, fields) {
-      console.log(results); // results contains rows returned by server
-      console.log(fields); // fields contains extra meta data about results, if available
-    }
-  );
-  console.log(">> check req: ",req.body)
-  return res.send("create user")
-
+  // userService.createNewUser(email,password,username)
+  userService.getUsers()
+  return res.send("handle create new user")
 } 
 
 module.exports = {
