@@ -16,6 +16,7 @@ const createNewUser = async (email, password, username) => {
       host: 'localhost',
       user: 'root',
       database: 'jwt',
+      Promise: bluebird,
     });
 
     await connection.execute(
@@ -45,6 +46,20 @@ const getUsers =async()=>{
     console.log("check error: ",e)
   }
 }
+
+const deleteUser = async(id)=>{
+  const connection = await mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'jwt',
+    Promise: bluebird,
+  });
+  await connection.execute(
+    `DELETE FROM users WHERE id = (?)`,
+      [id]
+  )
+
+}
 module.exports={
-  createNewUser,getUsers
+  createNewUser,getUsers,deleteUser
 }

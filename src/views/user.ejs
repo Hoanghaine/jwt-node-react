@@ -51,7 +51,7 @@
             <tbody>
               <tr>
                 <th scope="row">
-                  <%= JSON.stringify(index +1) %>
+                  <%=index +1 %>
                 </th>
                 <td>
                   <%=item.email %>
@@ -61,7 +61,11 @@
                 </td>
                 <td>
                   <button class="btn btn-secondary">Edit</button>
-                  <button class="btn btn-danger">Delete</button>
+                  <form action="/delete-user/<%= item.id %>" method="POST" style="display: inline;">
+                    <button class="btn btn-danger" type="submit">
+                      Delete
+                    </button>
+                  </form>
                 </td>
               </tr>
               
