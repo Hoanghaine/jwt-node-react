@@ -20,7 +20,7 @@ const createNewUser = async (email, password, username) => {
     });
 
     await connection.execute(
-      `INSERT INTO users (email,password,username) VALUES (?, ?, ?)`,
+      `INSERT INTO user (email,password,username) VALUES (?, ?, ?)`,
       [email, hashPass, username]
     );
 
@@ -38,9 +38,9 @@ const getUsers =async()=>{
     Promise: bluebird,
   });
   
-  let users=[];
+  let user=[];
   try{
-    const [rows,fields] = await connection.execute('SELECT * from users')
+    const [rows,fields] = await connection.execute('SELECT * from user')
     return rows
   }catch(e){
     console.log("check error: ",e)
@@ -55,7 +55,7 @@ const deleteUser = async(id)=>{
     Promise: bluebird,
   });
   await connection.execute(
-    `DELETE FROM users WHERE id = (?)`,
+    `DELETE FROM user WHERE id = (?)`,
       [id]
   )
 
@@ -69,7 +69,7 @@ const getUserById = async(id) => {
   });
   try{
     const [rows,fields] = await connection.query(
-      `SELECT * FROM users WHERE id = ?`,
+      `SELECT * FROM user WHERE id = ?`,
       [id]
     )
   return rows;
@@ -85,7 +85,7 @@ const updateUser = async(id,email,username) => {
     Promise: bluebird,
   });
   await connection.execute(
-    `UPDATE users SET email = ?, username = ? WHERE id = ?`,
+    `UPDATE user SET email = ?, username = ? WHERE id = ?`,
       [email,username,id]
   )
 }
