@@ -2,7 +2,6 @@ import express from "express"
 import configViewEngine from "./configs/viewEngine"
 import initWebRouters from "./routes/web"
 import bodyParser  from "body-parser"
-// import connection from "./configs/connectDB"
 
 require("dotenv").config()
 const PORT = process.env.PORT;
