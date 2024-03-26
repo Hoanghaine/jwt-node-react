@@ -22,63 +22,44 @@ const createNewUser = async (email, password, username) => {
 };
 
 const getUsers =async()=>{
-  const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'jwt',
-    Promise: bluebird,
-  });
+  // const connection = await mysql.createConnection({
+  //   host: 'localhost',
+  //   user: 'root',
+  //   database: 'jwt',
+  //   Promise: bluebird,
+  // });
   
-  let user=[];
-  try{
-    const [rows,fields] = await connection.execute('SELECT * from user')
-    return rows
-  }catch(e){
-    console.log("check error: ",e)
-  }
+  // let user=[];
+  // try{
+  //   const [rows,fields] = await connection.execute('SELECT * from user')
+  //   return rows
+  // }catch(e){
+  //   console.log("check error: ",e)
+  // }
+  let users = [];
+  users = await db.User.findAll();
+  return users
 }
 
-const deleteUser = async(id)=>{
-  const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'jwt',
-    Promise: bluebird,
-  });
-  await connection.execute(
-    `DELETE FROM user WHERE id = (?)`,
-      [id]
-  )
-
+const deleteUser = async(userId)=>{
+  await db.User.destroy({
+    where: {id: userId}
+  })
 }
-const getUserById = async(id) => {
-  const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'jwt',
-    Promise: bluebird,
-  });
-  try{
-    const [rows,fields] = await connection.query(
-      `SELECT * FROM user WHERE id = ?`,
-      [id]
-    )
-  return rows;
-  }catch(e){
-    console.log("check e: ",e)
-  }
+const getUserById = async(idUser) => {
+  let user = {}
+  user= await db.User.findOne({
+    where: {id: idUser}
+  })
+  return user;
 }
 const updateUser = async(id,email,username) => {
-  const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'jwt',
-    Promise: bluebird,
-  });
-  await connection.execute(
-    `UPDATE user SET email = ?, username = ? WHERE id = ?`,
-      [email,username,id]
-  )
+  await db.User.update({
+    email: email,
+    username: username
+  },{
+    where: {id: id}
+  })
 }
 module.exports={
   createNewUser,getUsers,deleteUser,getUserById,updateUser
